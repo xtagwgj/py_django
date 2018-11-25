@@ -4,7 +4,7 @@ Django Notes.
 ## 创建项目
 打开命令行，cd 到一个你想放置你代码的目录，然后运行以下命令
 ```dos
-$  django-admin startproject py_django
+$  django-admin startproject py_django
 ```
 
 测试项目是否创建成功的命令
@@ -27,20 +27,20 @@ Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 ```
 ## 替换数据库
-实际项目中，有可能使用其他的数据库，因此以下以 mysql 为例，来配置第三方的数据库连接
+> 实际项目中，有可能使用其他的数据库，因此以下以 mysql 为例，来配置第三方的数据库连接
 
 ### 创建数据库
-1.进入 mysql 的命令行界面，输入数据库的密码
+1. 进入 mysql 的命令行界面，输入数据库的密码
 ```sql
 $ mysql -u root -p
 ```
 
-2.创建数据库，记得保持这里的数据库名称和 settings 文件 database 中设置的 name 一致即可
+2. 创建数据库，记得保持这里的数据库名称和 settings 文件 database 中设置的 name 一致即可
 ```sql
 mysql> create database if not exists py_django_1 default charset utf8;
 ```
 
-3.退出命令行界面
+3. 退出命令行界面
 ```sql
 mysql> quit
 ```
@@ -64,4 +64,70 @@ DATABASES = {
         'CHARSET': 'utf8',
     }
 }
+```
+
+## 创建应用
+> 项目和应用有啥区别？应用是一个专门做某件事的网络应用程序——比如博客系统，或者公共记录的数据库，或者简单的投票程序。项目则是一个网站使用的配置和应用的集合。项目可以包含很多个应用。应用可以被很多个项目使用。
+
+1. 使用以下命令来创建应用(AppName是你要创建的应用名称)
+```dos
+$ python manage.py startapp AppName
+```
+
+2. 在新建的应用的 views.py 文件,并添加以下代码
+```python
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the AppName index.")
+```
+
+3. 在新建的应用中添加 urls.py 文件,并添加以下代码
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+```
+
+4. 在根 URLconf 文件中指定我们创建的 AppName.urls 模块，在 py_django/urls.py 文件的 urlpatterns 列表里插入一个 include()
+```python
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    # 
+    path('AppName/',include('AppName.urls')),
+]
+```
+
+5. 激活模型
+>为了在我们的工程中包含这个应用，我们需要在配置类 INSTALLED_APPS 中添加设置。因为 AppNameConfig 类写在文件 AppName/apps.py 中，所以它的点式路径是 'AppName.apps.AppNameConfig'。在文件 py_django/settings.py 中 INSTALLED_APPS 子项添加点式路径后，它看起来像这样：
+```
+INSTALLED_APPS = [
+    <!-- 这一行是添加的 -->
+    'AppName.apps.AppNameConfig',
+
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+```
+
+6. 检测模型修改，生成数据库表
+```dos
+$ python3 manage.py makemigrations AppName
+$ python3 manage.py migrate
+```
+
+7. 检测新应用是否引入成功
+```web
+访问 http://127.0.0.1:8000/admin/ 进入登录界面
+访问 http://127.0.0.1:8000/model_layer/ 可正常显示文字“Hello, world. You're at the AppName index.”
 ```
