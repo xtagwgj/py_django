@@ -71,7 +71,7 @@ DATABASES = {
 
 1. 使用以下命令来创建应用(AppName是你要创建的应用名称)
 ```dos
-$ python manage.py startapp AppName
+$ python3 manage.py startapp AppName
 ```
 
 2. 在新建的应用的 views.py 文件,并添加以下代码
@@ -99,16 +99,16 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # 
+    #  这里是新的应用 url 地址文件
     path('AppName/',include('AppName.urls')),
 ]
 ```
 
 5. 激活模型
 >为了在我们的工程中包含这个应用，我们需要在配置类 INSTALLED_APPS 中添加设置。因为 AppNameConfig 类写在文件 AppName/apps.py 中，所以它的点式路径是 'AppName.apps.AppNameConfig'。在文件 py_django/settings.py 中 INSTALLED_APPS 子项添加点式路径后，它看起来像这样：
-```
+```python
 INSTALLED_APPS = [
-    <!-- 这一行是添加的 -->
+    # 这一行是添加的
     'AppName.apps.AppNameConfig',
 
     'django.contrib.admin',
@@ -127,7 +127,7 @@ $ python3 manage.py migrate
 ```
 
 7. 检测新应用是否引入成功
-```web
+```
 访问 http://127.0.0.1:8000/admin/ 进入登录界面
 访问 http://127.0.0.1:8000/model_layer/ 可正常显示文字“Hello, world. You're at the AppName index.”
 ```
