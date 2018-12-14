@@ -27,7 +27,23 @@ Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 ```
 ## 替换数据库
-> 实际项目中，有可能使用其他的数据库，因此以下以 mysql 为例，来配置第三方的数据库连接
+> 实际项目中，有可能使用其他的数据库，因此以下以 mysql 为例，来配置第三方的数据库连接
+
+### 安装 `mysql` 数据库
+使用 `homebrew` 来安装 `mysql` 数据库
+```cmd
+# 安装
+brew install mysql
+
+# 启动mysql服务
+mysql.server start
+
+# 停止mysql服务
+mysql.server stop
+
+# 初始化mysql配置
+mysql_secure_installation
+```
 
 ### 创建数据库
 1. 进入 mysql 的命令行界面，输入数据库的密码
