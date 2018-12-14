@@ -33,20 +33,20 @@ Quit the server with CONTROL-C.
 使用 `homebrew` 来安装 `mysql` 数据库
 ```cmd
 # 安装
-brew install mysql
+$ brew install mysql
 
 # 启动mysql服务
-mysql.server start
+$ mysql.server start
 
 # 停止mysql服务
-mysql.server stop
+$ mysql.server stop
 
 # 初始化mysql配置
-mysql_secure_installation
+$ mysql_secure_installation
 ```
 
 ### 创建数据库
-1. 进入 mysql 的命令行界面，输入数据库的密码
+1. 进入 `mysql` 的命令行界面，输入数据库的密码
 ```sql
 $ mysql -u root -p
 ```
@@ -144,6 +144,6 @@ $ python3 manage.py migrate
 
 7. 检测新应用是否引入成功
 ```
-访问 http://127.0.0.1:8000/admin/ 进入登录界面
-访问 http://127.0.0.1:8000/model_layer/ 可正常显示文字“Hello, world. You're at the AppName index.”
+访问 http://127.0.0.1:8000/admin/ 进入登录界面
+访问 http://127.0.0.1:8000/model_layer/ 可正常显示文字“Hello, world. You're at the AppName index.”
 ```
